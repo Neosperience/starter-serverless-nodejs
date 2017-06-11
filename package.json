@@ -50,6 +50,7 @@
     "jasmine-core": "^2.6.3",
     "jasmine-expect": "^3.7.0",
     "jasmine-promises": "^0.4.1",
-    "jasmine-spec-reporter": "^4.1.0"
+    "jasmine-spec-reporter": "^4.1.0",
+    "serverless": "^1.15.2"
   }
 }
