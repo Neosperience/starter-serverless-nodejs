@@ -1,6 +1,6 @@
 env:
   node: true
-  es6: false
+  es6: true
 
 rules:
   # Taken from https://github.com/nodejs/node/blob/master/.eslintrc
