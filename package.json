@@ -1,0 +1,31 @@
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "displayName": "YOUR PROJECT DISPLAY NAME",
+  "description": "Starter project for serverless nodejs services. Please edit this package.json file and change it accordingly to your needs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "homepage": "https://your/project/homepage",
+  "repository": {
+    "type": "git",
+    "url": "https://your/project/repo.git"
+  },
+  "bugs": {
+    "url": "https://url/to/issue/tracking/system"
+  },
+  "keywords": [
+    "YOUR KEYWORDS",
+    "nodejs",
+    "services"
+  ],
+  "contributors": [
+    {
+      "name": "Contributor 01 Name",
+      "email": "contributor01@email",
+      "url": "http://contributor/personal/page"
+    }
+  ],
+  "license": "Apache-2.0"
+}
