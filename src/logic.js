@@ -21,4 +21,6 @@ class Logic {
 
 Logic.$inject = ['logger'];
 
-module.exports = Logic;
+module.exports = function (logger) {
+    return new Logic(logger);
+};
