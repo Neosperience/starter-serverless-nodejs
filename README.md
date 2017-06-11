@@ -2,8 +2,11 @@
 This project is intended to make you as fast as possible starting a new  service project using the following technologies
 
 * NodeJS 6.10
-* Lodash ^4.17.4
-* Bluebird ^3.5.0
+* Lodash 4.17.4
+* Bluebird 3.5.0
+* Winston 2.3.1
+* Jasmine 2.6.0
+* Istanbul 0.4.5
 
 ## Getting started
 To start a new service project, you don't need the full repository history, just make a shallow clone of this repo
