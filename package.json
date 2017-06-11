@@ -5,7 +5,9 @@
   "description": "Starter project for serverless nodejs services. Please edit this package.json file and change it accordingly to your needs.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint .",
+    "cover": "ENV=test istanbul cover --root src/ jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.all.json",
+    "cover-unit": "ENV=test istanbul cover --root src/ jasmine",
+    "lint": "ENV=test eslint .",
     "test": "ENV=test jasmine",
     "test-functional": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.functional.json",
     "test-integration": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.integration.json",
