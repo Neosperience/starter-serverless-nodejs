@@ -5,6 +5,7 @@
   "description": "Starter project for serverless nodejs services. Please edit this package.json file and change it accordingly to your needs.",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "https://your/project/homepage",
