@@ -14,4 +14,14 @@ describe('Logic.js', () => {
     it('is defined', () => {
         expect(sut).toBeDefined();
     });
+
+    describe('.sayHello', () => {
+        it('returns an hello world message', () => {
+            return sut
+                .sayHello()
+                .then((result) => {
+                    expect(result).toBe('Hello World');
+                });
+        });
+    });
 });
