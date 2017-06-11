@@ -27,5 +27,8 @@
       "url": "http://contributor/personal/page"
     }
   ],
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
 }
