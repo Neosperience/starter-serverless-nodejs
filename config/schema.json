@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "logger": {
+      "type": "object"
+    }
+  },
+  "required": ["logger"]
+}
