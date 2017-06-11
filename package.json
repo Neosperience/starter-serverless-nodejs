@@ -6,7 +6,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ENV=test jasmine",
+    "test-functional": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.functional.json",
+    "test-integration": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.integration.json",
+    "test-all": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.all.json"
+
   },
   "homepage": "https://your/project/homepage",
   "repository": {
@@ -21,13 +25,11 @@
     "nodejs",
     "services"
   ],
-  "contributors": [
-    {
-      "name": "Contributor 01 Name",
-      "email": "contributor01@email",
-      "url": "http://contributor/personal/page"
-    }
-  ],
+  "contributors": [{
+    "name": "Contributor 01 Name",
+    "email": "contributor01@email",
+    "url": "http://contributor/personal/page"
+  }],
   "license": "Apache-2.0",
   "dependencies": {
     "ajv": "^5.1.5",
