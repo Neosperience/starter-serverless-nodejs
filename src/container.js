@@ -12,8 +12,10 @@ function Container () {
 
     container.register('logger', require('./util/logger.js'));
     container.register('logger.config', config.logger);
-    container.register('logic', require('./logic.js'));
+    container.register('lambda-event', require('./lambda-event'));
 
+    container.register('lambda-mapper', require('./lambda-mapper'));
+    container.register('logic', require('./logic.js'));
     return container;
 }
 
