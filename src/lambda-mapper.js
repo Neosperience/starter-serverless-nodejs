@@ -1,7 +1,11 @@
 'use strict';
 
 const Promise = require('bluebird');
-const principalSchema = require('../resources/json-schemas/principal.json');
+
+/**
+ * Uncomment this to provide principal schema checking
+ * const principalSchema = require('../resources/json-schemas/principal.json');
+ */
 
 const LambdaMapper = function (logger, logic, lambdaEvent) {
 
