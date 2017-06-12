@@ -8,8 +8,12 @@ const LambdaMapper = function (logger, logic, lambdaEvent) {
     this.sayHello = function (event) {
         logger.verbose('LambdaMapper/sayHelllo');
         return Promise.try(function () {
-            var principal = lambdaEvent.extractPrincipalFromEvent(event, principalSchema);
-            return logic.sayHello(principal);
+            /**
+             * uncomment this if you want to use a Neosperience custom authorizer,
+             * that should be specified in serverless.yml
+             * var principal = lambdaEvent.extractPrincipalFromEvent(event,principalSchema);
+             **/
+            return logic.sayHello();
         })
             .then(function (result) {
                 return lambdaEvent.buildSuccessResponseEvent(event, result);

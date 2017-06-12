@@ -41,7 +41,7 @@ provider:
 
 functions:
   sayHello:
-    handler: src/lambda/sayHello/handler.hello
+    handler: src/lambda/say-hello/handler.handler
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
