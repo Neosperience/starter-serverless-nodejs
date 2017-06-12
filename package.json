@@ -39,6 +39,7 @@
     "ajv": "^5.1.5",
     "bluebird": "^3.5.0",
     "intravenous": "^0.1.4-beta",
+    "locale": "^0.1.0",
     "lodash": "^4.17.4",
     "nconf": "^0.8.4",
     "winston": "^2.3.1"
