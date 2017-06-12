@@ -12,7 +12,7 @@ describe('Lambda/sayHello [Integration]', function () {
     });
 
     describe('Handler()', function () {
-        it('should return 401 for a missing principal', function () {
+        xit('should return 401 for a missing principal', function () {
 
             var event = {
                 body: null,
