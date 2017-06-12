@@ -49,7 +49,7 @@ describe('Lambda/sayHello [Integration]', function () {
                     }
                 }
             };
-            return sut(event, context, function (err, result) {                
+            return sut(event, context, function (err, result) {
                 expect(result.statusCode).toBe(200);
                 expect(result.headers['Access-Control-Allow-Origin']).toBe('*');
                 expect(result.body).toBeDefined();

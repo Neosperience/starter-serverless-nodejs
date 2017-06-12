@@ -12,7 +12,6 @@ const LambdaMapper = function (logger, logic, lambdaEvent) {
             return logic.sayHello(principal);
         })
             .then(function (result) {
-                
                 return lambdaEvent.buildSuccessResponseEvent(event, result);
             })
             .catch(function (error) {

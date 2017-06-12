@@ -190,7 +190,7 @@ LambdaEvent.extractPrincipalFromEvent = (event, principalSchema) => {
     if (principalSchema === undefined) {
         throw new HttpError(HttpError.statusCodes.UNAUTHORIZED, LambdaEvent.Errors.PRINCIPAL_SCHEMA_MISSING);
     }
-    if (event.requestContext.authorizer === undefined || !event.requestContext.authorizer.principalId) {        
+    if (event.requestContext.authorizer === undefined || !event.requestContext.authorizer.principalId) {
         throw new HttpError(HttpError.statusCodes.UNAUTHORIZED, LambdaEvent.Errors.PRINCIPAL_MISSING);
     }
     let principalId = event.requestContext.authorizer.principalId;
@@ -287,10 +287,10 @@ LambdaEvent.resolveResourceUrl = (event, uuid) => {
  * @param headers
  * @returns {Object}
  */
-LambdaEvent.buildErrorResponseEvent = (event, error, statusCode = 500, headers) => {   
+LambdaEvent.buildErrorResponseEvent = (event, error, statusCode = 500, headers) => {
     if (!(error instanceof HttpError)) {
         error = HttpError.wrapError(error);
-    }    
+    }
     error.method = LambdaEvent.getMethodFromEvent(event);
     error.resource = LambdaEvent.getResourceUrlFromEvent(event);
     return LambdaEvent.buildResponseEvent(event, error, statusCode, headers);
