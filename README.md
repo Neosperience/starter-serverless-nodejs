@@ -7,6 +7,9 @@ This project is intended to make you as fast as possible starting a new  service
 * Winston 2.3.1
 * Jasmine 2.6.0
 * Istanbul 0.4.5
+* Intravenous 0.1.4-beta
+* Ajv 5.0.0 (with schema draft 0.6, 0.4 not supported anymore)
+* Serverless 1.15.2
 
 ## Getting started
 To start a new service project, you don't need the full repository history, just make a shallow clone of this repo
