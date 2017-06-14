@@ -51,7 +51,6 @@ class LambdaEvent {
      * @param schema Domain specific validation schema for this body
      */
     extractResourceFromEvent (event, schema) {
-        console.log('ddd '+JSON.stringify(event))
         if (_.isNil(event.body)) {
             throw new HttpError(HttpError.statusCodes.BAD_REQUEST, this.Errors.BODY_IS_NULL);
         }
