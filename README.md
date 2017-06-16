@@ -12,11 +12,12 @@ This project is intended to make you as fast as possible starting a new  service
 * Serverless 1.15.2
 
 ## Getting started
-To start a new service project, you don't need the full repository history, just make a shallow clone of this repo
+To start a new service project, you don't need the full repository history, just make an archive of this repo
 
 ```bash
-git clone --depth=1 https://path/to/this/repo
+git archive -o my-starter-project.zip --remote https://path/to/this/repo
 ```
+
 Now you must **cd** into the folder and run
 
 ```bash
