@@ -2,39 +2,12 @@
 #    docs.serverless.com
 service: your-service-name-v1 # NOTE: update this with your service name
 
-package:
-  exclude:
-    - .git/**
-    - .serveless/**
-    - config/**
-    - coverage/**
-    - node_modules/.bin/**
-    - node_modules/eslint/**
-    - node_modules/istanbul/**
-    - node_modules/jasmine*/**
-    - node_modules/serverless/**
-    - spec/**
-    - .*
-    - package.json
-    - README.md
-  include:
-    - config/config.json
-    - config/schema.json
-    - config/config.js
-
 provider:
   name: aws
   runtime: nodejs6.10
   stage: ${env:SERVERLESS_STAGE}
   region: ${env:SERVERLESS_REGION}
   versionFunctions: false
-
-custom:
-  accountId: ${env:SERVERLESS_ACCOUNT_ID}
-  authorizer:
-    arn: arn:aws:lambda:${self:provider.region}:${self:custom.accountId}:function:nsp-identity-services-v1-${self:provider.stage}-custom-authorizer
-    resultTtlInSeconds: 300
-    identitySource: method.request.header.Authorization
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -55,6 +28,33 @@ custom:
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
+
+package:
+  exclude:
+    - .git/**
+    - .serveless/**
+    - config/**
+    - coverage/**
+    - node_modules/.bin/**
+    - node_modules/eslint/**
+    - node_modules/istanbul/**
+    - node_modules/jasmine*/**
+    - node_modules/serverless/**
+    - spec/**
+    - .*
+    - package.json
+    - README.md
+  include:
+    - config/config.json
+    - config/schema.json
+    - config/config.js
+
+custom:
+  accountId: ${env:SERVERLESS_ACCOUNT_ID}
+  authorizer:
+    arn: arn:aws:lambda:${self:provider.region}:${self:custom.accountId}:function:nsp-identity-services-v1-${self:provider.stage}-custom-authorizer
+    resultTtlInSeconds: 300
+    identitySource: method.request.header.Authorization
 
 functions:
   sayHello:
