@@ -12,7 +12,8 @@
     "test": "ENV=test jasmine",
     "test-functional": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.functional.json",
     "test-integration": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.integration.json",
-    "test-all": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.all.json"
+    "test-all": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.all.json",
+    "sls": "sls"
   },
   "homepage": "https://your/project/homepage",
   "repository": {
