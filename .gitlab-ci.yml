@@ -12,3 +12,78 @@ cache:
 test:
   script:
     - npm run ci
+
+deploy-dev01:
+  stage: deploy
+  environment:
+    name: dev01
+    url: https://starter.dev01.neosperiencecloud.com/v1/say/hello
+  variables:
+    AWS_ACCESS_KEY_ID: $DEV01_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV01_AWS_SECRET_ACCESS_KEY
+    SERVERLESS_ACCOUNT_ID: "401326340776"
+    SERVERLESS_STAGE: dev
+    SERVERLESS_REGION: eu-west-1
+    SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.dev01.neosperiencecloud.com
+    CONFIG_LOGGER_CONSOLE_OPTIONS_LEVEL: verbose
+    CONFIG_LOGGER_FILE_OPTIONS_LEVEL: verbose
+    CONFIG_LOGGER_FILE_OPTIONS_FILENAME: logs/dev.log
+  script:
+    - apt-get update -y && apt-get install gettext-base -y
+    - envsubst < "config/config.json.dist" > "config/config.json"
+    - npm run sls -- package
+    - node scripts/adjust-serverless-state.js
+    - npm run sls -- deploy --package .serverless
+    - rm config/config.json
+  only:
+    - master
+
+deploy-stage01:
+  stage: deploy
+  environment:
+    name: stage01
+    url: https://starter.stage01.neosperiencecloud.com/v1/say/hello
+  variables:
+    AWS_ACCESS_KEY_ID: $STAGE01_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $STAGE01_AWS_SECRET_ACCESS_KEY
+    SERVERLESS_ACCOUNT_ID: "699110507658"
+    SERVERLESS_STAGE: test
+    SERVERLESS_REGION: eu-west-1
+    SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.stage01.neosperiencecloud.com
+    CONFIG_LOGGER_CONSOLE_OPTIONS_LEVEL: error
+    CONFIG_LOGGER_FILE_OPTIONS_LEVEL: error
+    CONFIG_LOGGER_FILE_OPTIONS_FILENAME: logs/stage.log
+  script:
+    - apt-get update -y && apt-get install gettext-base -y
+    - envsubst < "config/config.json.dist" > "config/config.json"
+    - npm run sls -- package
+    - node scripts/adjust-serverless-state.js
+    - npm run sls -- deploy --package .serverless
+    - rm config/config.json
+  only:
+    - stage
+
+deploy-nc01:
+  stage: deploy
+  environment:
+    name: nc01
+    url: https://starter.nc01.neosperiencecloud.com/v1/say/hello
+  variables:
+    AWS_ACCESS_KEY_ID: $DEV01_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV01_AWS_SECRET_ACCESS_KEY
+    SERVERLESS_ACCOUNT_ID: "xxx"
+    SERVERLESS_STAGE: prod
+    SERVERLESS_REGION: eu-west-1
+    SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.dev01.neosperiencecloud.com
+    CONFIG_LOGGER_CONSOLE_OPTIONS_LEVEL: error
+    CONFIG_LOGGER_FILE_OPTIONS_LEVEL: error
+    CONFIG_LOGGER_FILE_OPTIONS_FILENAME: logs/prod.log
+  script:
+    - apt-get update -y && apt-get install gettext-base -y
+    - envsubst < "config/config.json.dist" > "config/config.json"
+    - npm run sls -- package
+    - node scripts/adjust-serverless-state.js
+    - npm run sls -- deploy --package .serverless
+    - rm config/config.json
+  only:
+    - production
