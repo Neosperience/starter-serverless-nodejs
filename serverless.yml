@@ -1,14 +1,13 @@
 # For full config options, check the docs:
 #    docs.serverless.com
-service: your-service-name # NOTE: update this with your service name
+service: your-service-name-v1 # NOTE: update this with your service name
 
 provider:
   name: aws
   runtime: nodejs6.10
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  stage: ${env:SERVERLESS_STAGE}
+  region: ${env:SERVERLESS_REGION}
+  versionFunctions: false
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -30,14 +29,32 @@ provider:
 #  environment:
 #    variable1: value1
 
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+package:
+  exclude:
+    - .git/**
+    - .serveless/**
+    - config/**
+    - coverage/**
+    - node_modules/.bin/**
+    - node_modules/eslint/**
+    - node_modules/istanbul/**
+    - node_modules/jasmine*/**
+    - node_modules/serverless/**
+    - spec/**
+    - .*
+    - package.json
+    - README.md
+  include:
+    - config/config.json
+    - config/schema.json
+    - config/config.js
+
+custom:
+  accountId: ${env:SERVERLESS_ACCOUNT_ID}
+  authorizer:
+    arn: arn:aws:lambda:${self:provider.region}:${self:custom.accountId}:function:nsp-identity-services-v1-${self:provider.stage}-custom-authorizer
+    resultTtlInSeconds: 300
+    identitySource: method.request.header.Authorization
 
 functions:
   sayHello:
@@ -50,6 +67,8 @@ functions:
       - http:
           path: say/hello
           method: get
+#     Comment this line if you don't need Neosperience authentication:
+          authorizer: ${self:custom.authorizer}
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
 #      - sns: greeter-topic
@@ -75,14 +94,13 @@ functions:
 #    environment:
 #      variable2: value2
 
-# you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+resources:
+  Resources:
+    BasePathMapping:
+      Type: "AWS::ApiGateway::BasePathMapping"
+      Properties:
+        BasePath: v1
+        DomainName: ${env:SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME}
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Stage: ${self:provider.stage}
