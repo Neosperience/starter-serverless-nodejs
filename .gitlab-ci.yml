@@ -36,7 +36,8 @@ deploy-dev01:
     - npm run sls -- deploy --package .serverless
     - rm config/config.json
   only:
-    - master
+    # use 'master' instead of 'never' to activate this deploy
+    - never
 
 deploy-stage01:
   stage: deploy
