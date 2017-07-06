@@ -21,7 +21,7 @@ deploy-dev01:
   variables:
     AWS_ACCESS_KEY_ID: $DEV01_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $DEV01_AWS_SECRET_ACCESS_KEY
-    SERVERLESS_ACCOUNT_ID: "401326340776"
+    SERVERLESS_ACCOUNT_ID: $DEV01_AWS_ACCOUNT_ID
     SERVERLESS_STAGE: dev
     SERVERLESS_REGION: eu-west-1
     SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.dev01.neosperiencecloud.com
@@ -47,7 +47,7 @@ deploy-stage01:
   variables:
     AWS_ACCESS_KEY_ID: $STAGE01_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $STAGE01_AWS_SECRET_ACCESS_KEY
-    SERVERLESS_ACCOUNT_ID: "699110507658"
+    SERVERLESS_ACCOUNT_ID: $STAGE01_AWS_ACCOUNT_ID
     SERVERLESS_STAGE: test
     SERVERLESS_REGION: eu-west-1
     SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.stage01.neosperiencecloud.com
@@ -71,12 +71,38 @@ deploy-nc01:
     name: nc01
     url: https://starter.nc01.neosperiencecloud.com/v1/say/hello
   variables:
-    AWS_ACCESS_KEY_ID: $DEV01_AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $DEV01_AWS_SECRET_ACCESS_KEY
-    SERVERLESS_ACCOUNT_ID: "403230706318"
+    AWS_ACCESS_KEY_ID: $NC01_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $NC01_AWS_SECRET_ACCESS_KEY
+    SERVERLESS_ACCOUNT_ID: $NC01_AWS_ACCOUNT_ID
     SERVERLESS_STAGE: prod
     SERVERLESS_REGION: eu-west-1
-    SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.dev01.neosperiencecloud.com
+    SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.nc01.neosperiencecloud.com
+    CONFIG_LOGGER_CONSOLE_OPTIONS_LEVEL: error
+    CONFIG_LOGGER_FILE_OPTIONS_LEVEL: error
+    CONFIG_LOGGER_FILE_OPTIONS_FILENAME: logs/prod.log
+  script:
+    - apt-get update -y && apt-get install gettext-base -y
+    - envsubst < "config/config.json.dist" > "config/config.json"
+    - npm run sls -- package
+    - node scripts/adjust-serverless-state.js
+    - npm run sls -- deploy --package .serverless
+    - rm config/config.json
+  only:
+    # use 'production' instead of 'never' to activate this deploy
+    - never
+
+deploy-nsp:
+  stage: deploy
+  environment:
+    name: nsp
+    url: https://starter.nsp.neosperiencecloud.com/v1/say/hello
+  variables:
+    AWS_ACCESS_KEY_ID: $NSP_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $NSP_AWS_SECRET_ACCESS_KEY
+    SERVERLESS_ACCOUNT_ID: $NSP_AWS_ACCOUNT_ID
+    SERVERLESS_STAGE: prod
+    SERVERLESS_REGION: eu-west-1
+    SERVERLESS_CUSTOM_DOMAIN_NAME_BASE_DOMAIN_NAME: starter.nsp.neosperiencecloud.com
     CONFIG_LOGGER_CONSOLE_OPTIONS_LEVEL: error
     CONFIG_LOGGER_FILE_OPTIONS_LEVEL: error
     CONFIG_LOGGER_FILE_OPTIONS_FILENAME: logs/prod.log
