@@ -27,7 +27,7 @@ function pickFromTree (node, filter, getValue) {
 
 function getDeploymentName (state) {
     var findDeployment = function (child) {
-        return child.Type === ('AWS::ApiGateway::Deployment');
+        return _.isPlainObject(child) && child.Type === ('AWS::ApiGateway::Deployment');
     };
     var getName = function (child, key) {
         return key;
@@ -37,7 +37,7 @@ function getDeploymentName (state) {
 
 function addDependencyOnDeployment (state, deploymentName) {
     var findBasePathMapping = function (child) {
-        return child.Type === 'AWS::ApiGateway::BasePathMapping';
+        return _.isPlainObject(child) && child.Type === 'AWS::ApiGateway::BasePathMapping';
     };
     var basePathMapping = pickFromTree(state, findBasePathMapping)[0];
     basePathMapping.DependsOn = [deploymentName];
