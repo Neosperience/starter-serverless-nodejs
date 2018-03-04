@@ -1,15 +1,24 @@
 # Serverless NodeJS Starter project
 This project is intended to make you as fast as possible starting a new  service project using the following technologies
 
-* NodeJS 6.10
-* Lodash 4.17.4
-* Bluebird 3.5.0
-* Winston 2.3.1
-* Jasmine 2.6.0
-* Istanbul 0.4.5
+* Lodash 4.17.5
+* ESLint 4.18.2
+* Ajv 6.2.1 (with schema draft 0.7, previous not supported anymore)
+	* Ajv Keywords 3.1.0
+* Bluebird 3.5.1
 * Intravenous 0.1.4-beta
-* Ajv 5.0.0 (with schema draft 0.6, 0.4 not supported anymore)
-* Serverless 1.15.2
+* Locale 0.1.0
+* NConf 0.10.0
+* Node UUID 1.4.8
+* Winston 2.4.0
+* Istanbul 0.4.5
+* Jasmine 3.1.0
+	* Jasmine Core 3.1.0
+	* Jasmine Expect 3.8.3
+	* Jasmine Promises 0.4.1
+	* Jasmine Spec Reporter 4.2.1
+* Serverless 1.26.1
+
 
 ## Getting started
 To start a new service project, you don't need the full repository history, just make an archive of this repo
