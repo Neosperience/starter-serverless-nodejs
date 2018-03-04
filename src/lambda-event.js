@@ -8,7 +8,6 @@ let _ = require('lodash'),
 let API_GATEWAY_URL_REGEXP = /\.execute-api\..*\.amazonaws\.com$/;
 
 class LambdaEvent {
-
     constructor () {
         /**
          * This is an utility library that handles events coming from Lambda Integration Proxy and converts them to
@@ -33,9 +32,7 @@ class LambdaEvent {
             UUID_NOT_MATCH: 'UUID does not match format',
             LOCALE_FORMAT: 'locale param in query string is not in the locale format',
             ACCEPT_HEADER_FORMAT: 'Accept-Language header is not in the locale format'
-
         };
-
     }
 
     /**
@@ -54,7 +51,7 @@ class LambdaEvent {
         if (_.isNil(event.body)) {
             throw new HttpError(HttpError.statusCodes.BAD_REQUEST, this.Errors.BODY_IS_NULL);
         }
-        let contentType = event.headers[ 'Content-Type' ];
+        let contentType = event.headers['Content-Type'];
         if (contentType === undefined || !contentType.match(/^application\/json/)) {
             throw new HttpError(HttpError.statusCodes.UNSUPPORTED_MEDIA_TYPE);
         }
@@ -71,12 +68,10 @@ class LambdaEvent {
     parseJSON (string, errorStatusCode) {
         try {
             return JSON.parse(string);
-        } catch
-            (error) {
+        } catch (error) {
             throw new HttpError(errorStatusCode, this.Errors.JSON_IS_UNPARSABLE + error.message);
         }
     }
-
 
     /**
      * Validate Resource JSON against a schema
@@ -100,7 +95,6 @@ class LambdaEvent {
         throw validationError;
     }
 
-
     /**
      * Parse a string date with format YYYY-MM-DDThh:mm:ss into a js object, otherwhise returns the object untouched
      * @param value Date in string format
@@ -114,7 +108,6 @@ class LambdaEvent {
         }
     }
 
-
     /**
      * Converts every serialized date into a Date object. Ignores strings not matching format YYYY-MM-DDThh:mm:ss
      * @param entity The Object to be mangled
@@ -122,16 +115,15 @@ class LambdaEvent {
     mangleEntityDates (entity) {
         for (let key in entity) {
             if (entity.hasOwnProperty(key)) {
-                let value = entity[ key ];
+                let value = entity[key];
 
                 let deserializedDate = this.deserializeDate(value);
                 if (value !== deserializedDate) {
-                    entity[ key ] = deserializedDate;
+                    entity[key] = deserializedDate;
                 }
             }
         }
     }
-
 
     /**
      * Receives a date and a modified guard string that express check. Verifies wether last modify date comes after
@@ -146,21 +138,21 @@ class LambdaEvent {
         }
         let ifModifiedSince = new Date(ifModifiedSinceStr);
         if (isNaN(ifModifiedSince)) {
-            throw new HttpError(HttpError.statusCodes.BAD_REQUEST, 'Invalid If-Modified-Since header: ' +
-                '"' + ifModifiedSinceStr + '"');
+            throw new HttpError(
+                HttpError.statusCodes.BAD_REQUEST,
+                'Invalid If-Modified-Since header: ' + '"' + ifModifiedSinceStr + '"'
+            );
         }
         lastModified = new Date(1000 * Math.floor(lastModified.getTime() / 1000));
         return lastModified.getTime() > ifModifiedSince.getTime();
     }
 
-
-// The following extraction of data from the event and the format of the objects
-// passed to the callback are based on the `Lambda Proxy integration` of the API Gateway
+    // The following extraction of data from the event and the format of the objects
+    // passed to the callback are based on the `Lambda Proxy integration` of the API Gateway
 
     getMethodFromEvent (event) {
         return event.httpMethod;
     }
-
 
     /**
      * Builds a resource Url from a Lambda Event
@@ -168,9 +160,9 @@ class LambdaEvent {
      * @returns {string} Url pointing to this resource
      */
     getResourceUrlFromEvent (event) {
-        let protocol = event.headers[ 'X-Forwarded-Proto' ];
-        let port = event.headers[ 'X-Forwarded-Port' ];
-        if (protocol === 'http' && port === '80' || protocol === 'https' && port === '443') {
+        let protocol = event.headers['X-Forwarded-Proto'];
+        let port = event.headers['X-Forwarded-Port'];
+        if ((protocol === 'http' && port === '80') || (protocol === 'https' && port === '443')) {
             port = '';
         } else {
             port = ':' + port;
@@ -182,7 +174,6 @@ class LambdaEvent {
         }
         return protocol + '://' + event.headers.Host + port + contextPath + event.path;
     }
-
 
     /**
      * Extracts and returns to caller the principal object contained in an event.
@@ -205,17 +196,14 @@ class LambdaEvent {
         if (!_.isString(principalId)) {
             throw new HttpError(HttpError.statusCodes.UNAUTHORIZED, this.Errors.PRINCIPAL_NOT_STRING);
         }
-        let principal = this.parseJSON(
-            principalId, HttpError.statusCodes.UNAUTHORIZED,
-            this.Errors.PRINCIPAL_INVALID);
+        let principal = this.parseJSON(principalId, HttpError.statusCodes.UNAUTHORIZED, this.Errors.PRINCIPAL_INVALID);
         this.validateJSON(
             principal,
             principalSchema,
-            new HttpError(HttpError.statusCodes.UNAUTHORIZED,
-                this.Errors.PRINCIPAL_INVALID));
+            new HttpError(HttpError.statusCodes.UNAUTHORIZED, this.Errors.PRINCIPAL_INVALID)
+        );
         return principal;
     }
-
 
     /**
      * Extracts an unique ID from event
@@ -238,7 +226,6 @@ class LambdaEvent {
         return uuid.toLowerCase();
     }
 
-
     /**
      * Extracts locale from invocation query string or Accept-Language header
      * @param event
@@ -248,7 +235,7 @@ class LambdaEvent {
         function parseLocaleString (localeString) {
             let locales = new Locale.Locales(localeString);
             for (let i = 0; i < locales.length; i++) {
-                if (locales[ i ].language.length !== 2) {
+                if (locales[i].language.length !== 2) {
                     return null;
                 }
             }
@@ -263,8 +250,8 @@ class LambdaEvent {
             if (qLocales.length > 0) {
                 return qLocales;
             }
-        } else if (_.isString(event.headers[ 'Accept-Language' ])) {
-            let hLocales = parseLocaleString(event.headers[ 'Accept-Language' ]);
+        } else if (_.isString(event.headers['Accept-Language'])) {
+            let hLocales = parseLocaleString(event.headers['Accept-Language']);
             if (hLocales === null) {
                 throw new HttpError(HttpError.statusCodes.BAD_REQUEST, this.Errors.ACCEPT_HEADER_FORMAT);
             }
@@ -286,7 +273,6 @@ class LambdaEvent {
         return this.getResourceUrlFromEvent(event) + '/' + uuid;
     }
 
-
     /**
      * Build a Lambda Error event as response to Lambda invocation and an error, formatted following LambdaProxy
      * integration response event
@@ -305,7 +291,6 @@ class LambdaEvent {
         return this.buildResponseEvent(event, error, statusCode, headers);
     }
 
-
     /**
      * Build Lambda Response event from a result
      * @param result {*} Something the function wants to send back to the caller
@@ -317,7 +302,6 @@ class LambdaEvent {
     buildSuccessResponseEvent (event, result, statusCode = 200, headers) {
         return this.buildResponseEvent(event, result, statusCode, headers);
     }
-
 
     buildResponseEvent (inputEvent, body, statusCode, headers) {
         let response = {
